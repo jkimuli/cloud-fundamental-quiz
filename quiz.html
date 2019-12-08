@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quiz</title>
+    <!-- jquery for maximum compatibility -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    /** Simple JavaScript Quiz
+     * CSS styling and text content adaptation for the AWS Fundamental Quiz by @Sabrina 
+     * during the Bertelsmann Tech Scholarship Challenge Course 2019 by Udacity :) 
+     * Original quiz version 0.1.0 by Jeremy Rue @jrue http://journalism.berkeley.edu
+     * Copyright (c) 2013 The Regents of the University of California
+     * Released under the GPL Version 2 license
+     * http://www.opensource.org/licenses/gpl-2.0.php
+     * This program is distributed in the hope that it will be useful, but
+     * WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+     */
+    var quiztitle = "AWS Cloud Fondamentals quiz";
+    /**
+    * Set the information about your questions here. The correct answer string needs to match
+    * the correct choice exactly, as it does string matching. (case sensitive)
+    *
+    */
+    var quiz = [
+        {
+            "question"      :   "What does the AWS infrastructure contain?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Countries, counties, parishes",
+                                    "Cumulus, stratus, alto, cirrus clouds",
+                                    "Regions, AZs, and edge locations",
+                                    "Data points, plots, and reports"
+                                ],
+            "correct"       :   "Regions, AZs, and edge locations",
+            "explanation"   :   "Regions, AZs, and edge locations. Region is a physical location around the world where AWS cluster data centers. AZ is one or more discrete data centers. Edge locations are places where data is cached to reduce the latency to the end users.",
+        },
+        {
+            "question"      :   "What is the shared responsibility model?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "AWS is responsible for security of the Cloud. We are responsible for security in the Cloud",
+                                    "CSS rulesets that all web sites must follow when deployed",
+                                    "Blaming everybody and nobody at the same time",
+                                    "A protection against Ddos attacks"
+                                ],
+            "correct"       :   "AWS is responsible for security of the Cloud. We are responsible for security in the Cloud",
+            "explanation"   :   "Simply put, AWS is responsible for the infrastructure and for managing the security of the cloud. You, as the customer, are responsible for securing everything that is in the cloud.",
+        },
+        {
+            "question"      :   "What is an instance?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "An app serving as an example",
+                                    "A stand-alone app",
+                                    "An instance is a server that you rent in the Cloud",
+                                    "A Jupyter Notebook"
+                                ],
+            "correct"       :   "An instance is a server that you rent in the Cloud",
+            "explanation"   :   "An AWS EC2 instance is a server that you rent in the Cloud. Think of it as a remote computer. It does not have an operating system, and you can decide what OS you would like on it. AWS EC2 provides a wide selection of instance types optimized to fit different use cases.",
+        },
+        {
+            "question"      :   "What does Elastic Block Store allow you to do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Exploring a library of templates",
+                                    "Deleting all your endpoints at once",
+                                    "Expand the capacity of your instance",
+                                    "Putting rubber around your servers, because why not."
+                                ],
+            "correct"       :   "Expand the capacity of your instance",
+            "explanation"   :   "Expand the capacity of your instance. Amazon Elastic Block Store (EBS) is a block storage system used to store persistent data. Amazon EBS is suitable for EC2 instances by providing highly available block level storage volumes.",
+        },
+        {
+            "question"      :   "What do you use VPC for?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Very Polite Communications",
+                                    "For close captioning and transcribing",
+                                    "For push notifications",
+                                    "To secure your instances"
+                                ],
+            "correct"       :   "To secure your instances",
+            "explanation"   :   "To secure your instances. A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. It allows one to isolate their resources from other networks. This is the biggest security boundary that AWS provides for their resources on the cloud.",
+        },
+        {
+            "question"      :   "What do Lambdas give you?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Instant protection from exploits",
+                                    "Anonymisation of datasets",
+                                    "A lifetime access to the nearest frat house",
+                                    "Compute power in the Cloud"
+                                ],
+            "correct"       :   "Compute power in the Cloud",
+            "explanation"   :   "Compute power in the Cloud. AWS Lambda is an event-driven, serverless computing platform. It is a computing service that runs code in response to events and automatically manages the computing resources required by that code.",
+        },
+        {
+            "question"      :   "What is Elastic Beanstalk?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "A firewall",
+                                    "An orchestration service",
+                                    "A storage bucket service",
+                                    "Green plastic made of recycled vegetable"
+                                ],
+            "correct"       :   "An orchestration service",
+            "explanation"   :   "AWS Elastic Beanstalk is an orchestration service offered by Amazon Web Services for deploying applications which orchestrates various AWS services, including EC2, S3, Simple Notification Service, CloudWatch, autoscaling, and Elastic Load Balancers.",
+        },
+        {
+            "question"      :   "Why is Elastic Beanstalk helpful?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "It helps you manage the lifecycle of your applications and the services behind them",
+                                    "It's healthy to eat greens",
+                                    "It balances what type of apps are run on your instances",
+                                    "It calculates the costs of running your apps and services"
+                                ],
+            "correct"       :   "It helps you manage the lifecycle of your applications and the services behind them",
+            "explanation"   :   "It helps you manage the lifecycle of your applications and the services behind them. It reduces management complexity without restricting choice or control. You simply upload your application, and Elastic Beanstalk automatically handles the details of capacity provisioning, load balancing, scaling, and application health monitoring.",
+        },
+        {
+            "question"      :   "What can you use to store files or objects in the Cloud?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "WD40",
+                                    "R2D2",
+                                    "Drops4",
+                                    "S3"
+                                ],
+            "correct"       :   "S3",
+            "explanation"   :   "Amazon S3 has a simple web services interface that you can use to store and retrieve any amount of data, at any time, from anywhere on the web. It gives any developer access to the same highly scalable, reliable, fast, inexpensive data storage infrastructure that Amazon uses to run its own global network of web sites.",
+        },
+        {
+            "question"      :   "What is S3 Glacier good for?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Ice-cream shops",
+                                    "Archiving purposes",
+                                    "Reducing the load on your instance",
+                                    "Storing temporarily"
+                                ],
+            "correct"       :   "Archiving purposes",
+            "explanation"   :   "Amazon Simple Storage Service Glacier, that is Amazon S3 Glacier (Glacier), is a storage service optimized for infrequently used data, or cold data. Glacier is an extremely low-cost storage service that provides durable storage with security features for data archiving and backup.",
+        },
+        {
+            "question"      :   "For what type of data is S3 Glacier intended?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Data you plan to access less frequently",
+                                    "Geographic data solely",
+                                    "Air conditioner industry data",
+                                    "Food industry data"
+                                ],
+            "correct"       :   "Data you plan to access less frequently",
+            "explanation"   :   "Data you plan to access less frequently, also called cold data.",
+        },
+        {
+            "question"      :   "What is DynamoDB?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Emergency Electric resources",
+                                    "A NoSQL database",
+                                    "A drop shipping service",
+                                    "A bucket"
+                                ],
+            "correct"       :   "A NoSQL database",
+            "explanation"   :   "Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. It works on key-value pair and other data structure. It only requires a primary key. DynamoDB integrates with Lambda to provide triggers. Using triggers, you can automatically execute a custom function when item-level changes in a DynamoDB table are detected. With triggers, you can build applications that react to data modifications in DynamoDB tables.",
+        },
+        {
+            "question"      :   "What does RedShift hold?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Small day-to-day databases",
+                                    "A SQLite database",
+                                    "XML codes",
+                                    "Large volume of data"
+                                ],
+            "correct"       :   "Large volume of data",
+            "explanation"   :   "Large volume of data. Amazon Redshift is a fast, scalable data warehouse that makes it simple and cost-effective to analyze all your data across your data warehouse and data lake.",
+        },
+        {
+            "question"      :   "Where can you hold data that need to be analysed or reported against?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "GreenSun",
+                                    "BlueBook",
+                                    "RedShift",
+                                    "ScarletLetter"
+                                ],
+            "correct"       :   "RedShift",
+            "explanation"   :   "RedShift. Amazon Redshift is a fast, scalable data warehouse that makes it simple and cost-effective to analyze all your data across your data warehouse and data lake.",
+        },
+        {
+            "question"      :   "What can you speed up with CloudFront?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Content delivery",
+                                    "Weather Forecasts",
+                                    "RedShift",
+                                    "Large volume of data"
+                                ],
+            "correct"       :   "Content delivery",
+            "explanation"   :   "Content delivery. Amazon CloudFront is a fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency, high transfer speeds, all within a developer friendly environment.",
+        },
+        {
+            "question"      :   "What can you use to safeguard your web applications running on AWS?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Hammer",
+                                    "Armor",
+                                    "Sword",
+                                    "Shield"
+                                ],
+            "correct"       :   "Shield",
+            "explanation"   :   "Shield. AWS Shield is a managed Distributed Denial of Service (DDoS) protection service that safeguards applications running on AWS. AWS Shield provides always-on detection and automatic inline mitigations that minimize application downtime and latency, so there is no need to engage AWS Support to benefit from DDoS protection.",
+        },
+        {
+            "question"      :   "What can you stop with Shield?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Hydra attacks",
+                                    "Ddos attacks",
+                                    "Kasius attacks ",
+                                    "Hive attacks"
+                                ],
+            "correct"       :   "Ddos attacks",
+            "explanation"   :   "Ddos attacks.",
+        },
+        {
+            "question"      :   "What is WAF?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "A firewall service to protect your web applications",
+                                    "A way to access all files in your AWS account",
+                                    "A service designed specifically for wagons and fret transportation companies",
+                                    "A web assistance service for firemen"
+                                ],
+            "correct"       :   "A firewall service to protect your web applications",
+            "explanation"   :   "AWS WAF is a web application firewall that helps protect your web applications from common web exploits that could affect application availability, compromise security, or consume excessive resources. AWS WAF gives you control over which traffic to allow or block to your web applications by defining customizable web security rules.",
+        },
+        {
+            "question"      :   "What does IAM stand for?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Intelligent Approval Mesh",
+                                    "Integrated App Matching",
+                                    "Instant Access and Mobility",
+                                    "Identity and Access Management"
+                                ],
+            "correct"       :   "Identity and Access Management",
+            "explanation"   :   "Identity and Access Management",
+        },
+        {
+            "question"      :   "What does the IAM service allow you to do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Chat with developers",
+                                    "A Ddos attack",
+                                    "Configure who can access your AWS account, services, and applications running in your account",
+                                    "Take pictures of whoever access your AWS account"
+                                ],
+            "correct"       :   "Configure who can access your AWS account, services, and applications running in your account",
+            "explanation"   :   "AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. You use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources.",
+        },
+        {
+            "question"      :   "Route 53 does more than registering your domain name. What else does it do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Geocaching",
+                                    "It helps you plan your next trip",
+                                    "It also routes the Internet traffic to the resources for your domain and checks the health of your resources",
+                                    "Identity and Access Management"
+                                ],
+            "correct"       :   "It also routes the Internet traffic to the resources for your domain and checks the health of your resources",
+            "explanation"   :   "Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking.",
+        },
+        {
+            "question"      :   "What does elasticity in the Cloud allow you to do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "To build architecture in a fast and secure way",
+                                    "To stop guessing about capacity needed to run your applications",
+                                    "To translate your apps",
+                                    "Set up secure access even from wifi in planes"
+                                ],
+            "correct"       :   "To stop guessing about capacity needed to run your applications",
+            "explanation"   :   "To stop guessing about capacity needed to run your applications",
+        },
+        {
+            "question"      :   "What does a load balancer do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Turn data into code",
+                                    "Create infrastructure automatically",
+                                    "Helps you eat your 5-a-day",
+                                    "It balances the load between two or more servers"
+                                ],
+            "correct"       :   "It balances the load between two or more servers",
+            "explanation"   :   "It balances the load between two or more servers",
+        },
+        {
+            "question"      :   "How can notifications be sent?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Mostly in morse code",
+                                    "Via email or text messaging",
+                                    "Via pigeons",
+                                    "With smoke signals"
+                                ],
+            "correct"       :   "Via email or text messaging",
+            "explanation"   :   "Via email or text messaging",
+        },
+        {
+            "question"      :   "What model do you use to send notifications?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "A publish/ subscribe model",
+                                    "A describe model",
+                                    "A letter model",
+                                    "A train model"
+                                ],
+            "correct"       :   "A publish/ subscribe model",
+            "explanation"   :   "A publish/ subscribe model",
+        },
+        {
+            "question"      :   "What are queues used for?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "A publish/ subscribe model",
+                                    "Sort data in AWS ML",
+                                    "For horizontal organisation",
+                                    "For system messaging"
+                                ],
+            "correct"       :   "For system messaging",
+            "explanation"   :   "For system messaging",
+        },
+        {
+            "question"      :   "What do containers work well with?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "With microservices architecture",
+                                    "Via email or text messaging",
+                                    "With large chunks of code",
+                                    "With data loaders"
+                                ],
+            "correct"       :   "With microservices architecture",
+            "explanation"   :   "With microservices architecture",
+        },
+        {
+            "question"      :   "What is true of microservices?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "They are too small to be containerised",
+                                    "They work well with miniature datasets",
+                                    "They are highly dependent components",
+                                    "Each microservice is its own independent component that can be containerised"
+                                ],
+            "correct"       :   "Each microservice is its own independent component that can be containerised",
+            "explanation"   :   "Each microservice is its own independent component that can be containerised",
+        },
+        {
+            "question"      :   "What does ECS stand for?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Estate Command Service",
+                                    "Electric Control Service",
+                                    "Elastic Container Service",
+                                    "Encoding Console Service"
+                                ],
+            "correct"       :   "Elastic Container Service",
+            "explanation"   :   "Elastic Container Service",
+        },
+        {
+            "question"      :   "What is ECS?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "It is an orchestration service that helps you efficiently manage Docker containers",
+                                    "It is a service for  email or text messaging",
+                                    "It is a service for command line control",
+                                    "It allows you to hire developers via your console"
+                                ],
+            "correct"       :   "It is an orchestration service that helps you efficiently manage Docker containers",
+            "explanation"   :   "Amazon Elastic Container Service is a highly scalable, high-performance container orchestration service that supports Docker containers and allows you to easily run and scale containerized applications on AWS. Amazon ECS eliminates the need for you to install and operate your own container orchestration software, manage and scale a cluster of virtual machines, or schedule containers on those virtual machines.",
+        },
+        {
+            "question"      :   "What does CloudWatch allow you to do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "It is an orchestration service that lets you manage cloud files",
+                                    "It modifies the temperature of servers based on the latest weather forecasts",
+                                    "It offers video surveillance of edge locations",
+                                    "Collect and track metrics that allows you to monitor log files produced by your application"
+                                ],
+            "correct"       :   "Collect and track metrics that allows you to monitor log files produced by your application",
+            "explanation"   :   "Collect and track metrics that allows you to monitor log files produced by your application. Amazon CloudWatch is an AWS component designed to monitor AWS cloud resources and hosted applications.",
+        },
+        {
+            "question"      :   "What does CloudTrail allow you to do?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "It is an orchestration service that helps you efficiently manage Docker containers",
+                                    "Keep track of all notifications sent",
+                                    "Audit or review everything that occurs in your AWS account",
+                                    "It deletes all trace of your latest changes"
+                                ],
+            "correct"       :   "Audit or review everything that occurs in your AWS account",
+            "explanation"   :   "Audit or review everything that occurs in your AWS account. AWS CloudTrail is an AWS service that helps you enable governance, compliance, and operational and risk auditing of your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. Events include actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs.",
+        },
+        {
+            "question"      :   "What can you do with AWS CloudFormation templates?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "You can turn your infrastructure into code",
+                                    "You can create a Kindle",
+                                    "You can compete in the AWS Deep Racer League",
+                                    "You can collect and track metrics"
+                                ],
+            "correct"       :   "You can turn your infrastructure into code",
+            "explanation"   :   "You can turn your infrastructure into code. An AWS CloudFormation template is a JSON or YAML formatted text file. You can save these files with any extension, such as .json, .yaml, .template, or .txt. AWS CloudFormation uses these templates as blueprints for building your AWS resources.",
+        },
+        {
+            "question"      :   "What can you do with AWS CLI?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "You can access your AWS account form your mobile phone",
+                                    "You can start a promotion campaign",
+                                    "Access and control services running in your AWS account from the command line",
+                                    "You can watch Amazon Prime videos"
+                                ],
+            "correct"       :   "Access and control services running in your AWS account from the command line",
+            "explanation"   :   "The AWS Command Line Interface (AWS CLI) is an open source tool that enables you to interact with AWS services using commands in your command-line shell.",
+        },
+    ];
+    /******* No need to edit below this line *********/
+    var currentquestion = 0, score = 0, submt=true, picked;
+    jQuery(document).ready(function($){
+        /**
+         * HTML Encoding function for alt tags and attributes to prevent messy
+         * data appearing inside tag attributes.
+         */
+        function htmlEncode(value){
+          return $(document.createElement('div')).text(value).html();
+        }
+        /**
+         * This will add the individual choices for each question to the ul#choice-block
+         *
+         * @param {choices} array The choices from each question
+         */
+        function addChoices(choices){
+            if(typeof choices !== "undefined" && $.type(choices) == "array"){
+                $('#choice-block').empty();
+                for(var i=0;i<choices.length; i++){
+                    $(document.createElement('li')).addClass('choice choice-box').attr('data-index', i).text(choices[i]).appendTo('#choice-block');                    
+                }
+            }
+        }
+        
+        /**
+         * Resets all of the fields to prepare for next question
+         */
+        function nextQuestion(){
+            submt = true;
+            $('#explanation').empty();
+            $('#question').text(quiz[currentquestion]['question']);
+            $('#pager').text('Question ' + Number(currentquestion + 1) + ' of ' + quiz.length);
+            if(quiz[currentquestion].hasOwnProperty('image') && quiz[currentquestion]['image'] != ""){
+                if($('#question-image').length == 0){
+                    $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question'])).insertAfter('#question');
+                } else {
+                    $('#question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question']));
+                }
+            } else {
+                $('#question-image').remove();
+            }
+            addChoices(quiz[currentquestion]['choices']);
+            setupButtons();
+        }
+        /**
+         * After a selection is submitted, checks if its the right answer
+         *
+         * @param {choice} number The li zero-based index of the choice picked
+         */
+        function processQuestion(choice){
+            if(quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']){
+                $('.choice').eq(choice).css({'background-color':'#50D943'});
+                $('#explanation').html('<strong>Correct!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+                score++;
+            } else {
+                $('.choice').eq(choice).css({'background-color':'#D92623'});
+                $('#explanation').html('<strong>Incorrect.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            }
+            currentquestion++;
+            $('#submitbutton').html('NEXT QUESTION &raquo;').on('click', function(){
+                if(currentquestion == quiz.length){
+                    endQuiz();
+                } else {
+                    $(this).text('Check Answer').css({'color':'#222'}).off('click');
+                    nextQuestion();
+                }
+            })
+        }
+        /**
+         * Sets up the event listeners for each button.
+         */
+        function setupButtons(){
+            $('.choice').on('mouseover', function(){
+                $(this).css({'background-color':'#3e3e3e'});
+            });
+            $('.choice').on('mouseout', function(){
+                $(this).css({'background-color':'#1E202B'});
+            })
+            $('.choice').on('click', function(){
+                picked = $(this).attr('data-index');
+                $('.choice').removeAttr('style').off('mouseout mouseover');
+                $(this).css({'border-color':'#222','font-weight':700,'background-color':'#6e6e6e'});
+                if(submt){
+                    submt=false;
+                    $('#submitbutton').css({'color':'#000'}).on('click', function(){
+                        $('.choice').off('click');
+                        $(this).off('click');
+                        processQuestion(picked);
+                    });
+                }
+            })
+        }
+        
+        /**
+         * Quiz ends, display a message.
+         */
+        function endQuiz(){
+            $('#explanation').empty();
+            $('#question').empty();
+            $('#choice-block').empty();
+            $('#submitbutton').remove();
+            $('#question').text("You got " + score + " out of " + quiz.length + " correct.");
+            $(document.createElement('h2')).css({'text-align':'center', 'font-size':'4em'}).text(Math.round(score/quiz.length * 100) + '%').insertAfter('#question');
+        }
+        /**
+         * Runs the first time and creates all of the elements for the quiz
+         */
+        function init(){
+            //add title
+            if(typeof quiztitle !== "undefined" && $.type(quiztitle) === "string"){
+                $(document.createElement('h1')).text(quiztitle).appendTo('#frame');
+            } else {
+                $(document.createElement('h1')).text("Quiz").appendTo('#frame');
+            }
+            //add pager and questions
+            if(typeof quiz !== "undefined" && $.type(quiz) === "array"){
+                //add pager
+                $(document.createElement('p')).addClass('pager').attr('id','pager').text('Question 1 of ' + quiz.length).appendTo('#frame');
+                //add first question
+                $(document.createElement('h2')).addClass('question').attr('id', 'question').text(quiz[0]['question']).appendTo('#frame');
+                //add image if present
+                if(quiz[0].hasOwnProperty('image') && quiz[0]['image'] != ""){
+                    $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[0]['image']).attr('alt', htmlEncode(quiz[0]['question'])).appendTo('#frame');
+                }
+                $(document.createElement('p')).addClass('explanation').attr('id','explanation').html('&nbsp;').appendTo('#frame');
+            
+                //questions holder
+                $(document.createElement('ul')).attr('id', 'choice-block').appendTo('#frame');
+            
+                //add choices
+                addChoices(quiz[0]['choices']);
+            
+                //add submit button
+                $(document.createElement('div')).addClass('choice-box').attr('id', 'submitbutton').text('Check Answer').css({'font-weight':700,'color':'#222','padding':'30px 0'}).appendTo('#frame');
+            
+                setupButtons();
+            }
+        }
+        
+        init();
+    });
+    </script>
+    <style type="text/css" media="all">
+        /*css reset */
+        
+        html,body,div,span,h1,h2,h3,h4,h5,h6,code,small,strike,sub,sup,b,u,i{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0; background: linear-gradient(to left, #FF00C7 0%,#00c7ff 100%);color: #fff;padding:0;} 
+        p,strong{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0; background: #1E202B;color: #fff;padding:0;} 
+        article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;} 
+        body{line-height:1; font:normal 0.9em/1em "Helvetica Neue", Helvetica, Arial, sans-serif;} 
+        ol,ul{list-style:none;}
+        strong{font-weight:700;}
+        #frame{max-width:620px;width:auto;border:1px solid tomato;background:#1E202B;padding:10px;margin:10px 350px;}
+        h1{font:normal 3em/1.8em "Impact", charcoal,sans-serif;text-align:center;border-bottom:1px; solid #fff;background:#1E202B;padding:0;width:auto}
+        h2{font:italic bold 1.3em/1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;background:#1E202B;padding:0;text-align:center;margin:20px 0;}
+        p.pager{margin:5px 0 5px; font:bold 1em/1em "Helvetica Neue", Helvetica, Arial, background: #1E202B, sans-serif;color:#fff;text-align:center}
+        img.question-image{display:block;max-width:250px;margin:10px auto;border:1px solid #fff;width:100%;height:auto;}
+        #choice-block{display:block;list-style:none;margin:0;padding:0;}
+        #submitbutton{background:#0095bf;}
+        #submitbutton:hover{background:#00c7ff;}
+        #explanation{margin:0 auto;background: #1E202B;padding:20px;width:75%;}
+        .choice-box{display:block;text-align:center;margin:8px auto;padding:10px 0;border:1px solid #666;cursor:pointer;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div id="frame" role="content"></div>
+</body>
+</html>
