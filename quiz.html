@@ -17,13 +17,109 @@
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
      */
-    var quiztitle = "AWS Cloud Fundamentals quiz";
+    var quiztitle = "Git & AWS Cloud Fondamentals quiz";
     /**
     * Set the information about your questions here. The correct answer string needs to match
     * the correct choice exactly, as it does string matching. (case sensitive)
     *
     */
     var quiz = [
+        {
+            "question"      :   "Which Command is used to show limited number of commits?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git fetch <remote>",
+                                    "git log -n <limit>",
+                                    "git config <limit>",
+                                    "git status"
+                                ],
+            "correct"       :   "git log -n <limit>",
+            "explanation"   :   "git log -n <limit> Command is used to show limited number of commits",
+        },
+        {
+            "question"      :   "____________ command is useful for getting a high-level overview of the project history.",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git log --oneline",
+                                    "git reset --hard",
+                                    "git log --author=<pattern>",
+                                    " git rebase <base>"
+                                ],
+            "correct"       :   " git log --oneline",
+            "explanation"   :   "git log --oneline command is useful for getting a high-level overview of the project history",
+        },
+        {
+            "question"      :   "___________________ removes untracked files from your working directory",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git commit",
+                                    "git clean -f <path>",
+                                    "git clean",
+                                    "git reset"
+                                ],
+            "correct"       :   "git clean",
+            "explanation"   :   "git clean removes untracked files from your working directory.",
+        },
+        {
+            "question"      :   "Command to download all the objects and references from a specified repository",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git config --list",
+                                    "git help <command>",
+                                    "git fetch <remote>",
+                                    "git log -n <limit>"
+                                ],
+            "correct"       :   "git clean",
+            "explanation"   :   "git clean removes untracked files from your working directory.",
+        }, 
+        {
+            "question"      :   "Git command to compare two specified branches",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git diff <first-branch>...<second-branch>",
+                                    " git merge <fetched-remote-name> <branch-name>",
+                                    "git blame -L <start>,<end> <filename>",
+                                    "git push <remote> --tags"
+                                ],
+            "correct"       :   "git diff <first-branch>...<second-branch>",
+            "explanation"   :   "git diff <first-branch>...<second-branch> command compares two specified branches",
+        },
+        {
+            "question"      :   "_____________ command renames the current branch to <branch>",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git remote rm <name>",
+                                    "git branch -m <branch>",
+                                    "git branch -D <branch> (CAPS)",
+                                    "git rebase <base>"
+                                ],
+            "correct"       :   "git branch -m <branch>",
+            "explanation"   :   "git branch -m <branch> command renames the current branch to <branch>",
+        },
+        {
+            "question"      :   "Which Git command displays the patch representing each commit.",
+            "image"         :   "",
+            "choices"       :   [
+                                    "git branch",
+                                    "git remote -v",
+                                    "git log -p",
+                                    "git log"
+                                ],
+            "correct"       :   "git log -p",
+            "explanation"   :   "git log -p command displays the patch representing each commit.",
+        },
+        {
+            "question"      :   "Sparse checkout allows you to",
+            "image"         :   "",
+            "choices"       :   [
+                                    "init only the main submodule of the repository",
+                                    "check out only some files from the repository into your working copy",
+                                    "clone a remote such that you get a working copy but no repository (no .git folder)",
+                                    "check out a branch from the repository without some of its commits"
+                                ],
+            "correct"       :   "check out only some files from the repository into your working copy",
+            "explanation"   :   "Sparse checkout allows you to check out only some files from the repository into your working copy ",
+        },
         {
             "question"      :   "What does the AWS infrastructure contain?",
             "image"         :   "",
