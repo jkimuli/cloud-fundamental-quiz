@@ -540,6 +540,62 @@
             "correct"       :   "Domain Name System",
             "explanation"   :   "Domain Name System. The domain name system (DNS) is a naming database in which internet domain names are located and translated into internet protocol (IP) addresses. The domain name system maps the name people use to locate a website to the IP address that a computer uses to locate a website.",
         },
+
+        {
+            "question"      :   "What best describes the purpose of an Elastic Load Balancer?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "It monitors traffic on EC2 Instances",
+                                    "It launches new EC2 instances based on traffic demand",
+                                    "It evenly distributes incoming traffic between EC2 instances",
+                                    "Terminates unhealthy EC2 instances"
+                                ],
+            "correct"       :   "It evenly distributes incoming traffic between EC2 instances",
+            "explanation"   :   "AWS ELB - Elastic Load Balancer is a service that distributes traffic between EC2 instances so that no one EC2 instance is overwhelmed with traffic",
+        },
+
+        {
+            "question"      :   "If you are using a load balancer to redirect HTTP web Traffic to EC2 instances, what port must be open in the AWS ELB Security Group Configuration?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Port 53",
+                                    "Port 80",
+                                    "Port 443",
+                                    "Port 21"
+                                ],
+            "correct"       :   "Port 80",
+            "explanation"   :   "TCP Port 80 is the default port for a web server",
+        },
+
+        {
+            "question"      :   "Which of the following is the correct order for creating an Auto Scaling Group?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "Create a route table then an auto scaling group",
+                                    "Create an auto scaling group and then an S3 bucket",
+                                    "Create an Internet Gateway and then an auto scaling group",
+                                    "Create a launch configuration and then an auto scaling group"
+                                ],
+            "correct"       :   "Create a launch configuration and then an auto scaling group",
+            "explanation"   :   "To create an auto scaling group first create a launch configuration which is a template for the EC2 instances and the create an auto scaling group defining the min and max number of EC2 instances in the group",
+        },
+
+        {
+            "question"      :   "Which of the following AWS resources can be used in an Auto Scaling Group?",
+            "image"         :   "",
+            "choices"       :   [
+                                    "VPCs",
+                                    "EC2 instances",
+                                    "S3 buckets",
+                                    "Route Tables"
+                                ],
+            "correct"       :   "EC2 instances",
+            "explanation"   :   "AWS Auto Scaling group consists of EC2 instances that can be added or removed according to traffic demand",
+        },
+
+        
+
+
     ];
     /******* No need to edit below this line *********/
     var currentquestion = 0, score = 0, submt=true, picked;
